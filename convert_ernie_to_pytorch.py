@@ -28,8 +28,8 @@ def build_weight_map():
         'word_embedding': 'bert.embeddings.word_embeddings.weight',
         'pos_embedding': 'bert.embeddings.position_embeddings.weight',
         'sent_embedding': 'bert.embeddings.token_type_embeddings.weight',
-        'pre_encoder_layer_norm_scale': 'bert.embeddings.LayerNorm.gamma',
-        'pre_encoder_layer_norm_bias': 'bert.embeddings.LayerNorm.beta',
+        'pre_encoder_layer_norm_scale': 'bert.embeddings.LayerNorm.weight',
+        'pre_encoder_layer_norm_bias': 'bert.embeddings.LayerNorm.bias',
     })
 
     def add_w_and_b(ernie_pre, pytroch_pre):
