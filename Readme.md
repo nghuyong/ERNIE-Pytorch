@@ -9,7 +9,7 @@ You can use the version I have converted or convert it by yourself.
 
 ### Directly Download
 
-Directly download has converted ERNIE model from [here](http://image.nghuyong.top/ERNIE.zip) and unzip, you will get:
+Directly download has converted ERNIE model from [here](https://nghuyong.oss-cn-hangzhou.aliyuncs.com/ERNIE.zip) and unzip, you will get:
 
 ```
 ERNIE/
