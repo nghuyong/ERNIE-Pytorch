@@ -1,43 +1,31 @@
 # ERNIE-Pytorch
 
-This project is to convert [ERNIE](https://github.com/PaddlePaddle/LARK/tree/develop/ERNIE) to [huggingface's](https://github.com/huggingface/pytorch-pretrained-BERT) format.
+This project is to convert [ERNIE](https://github.com/PaddlePaddle/ERNIE) to [pytorch-transformers's](https://github.com/huggingface/pytorch-transformers) format.
 
 ERNIE is based on the Bert model and has better performance on Chinese NLP tasks.
+
+**Currently only supports conversion of ERNIE version 1.0.**
 
 ## How to use
 You can use the version I have converted or convert it by yourself.
 
 ### Directly Download
 
-Directly download has converted ERNIE model from [here](https://nghuyong.oss-cn-hangzhou.aliyuncs.com/ERNIE.zip) and unzip, you will get:
+Directly download has converted ERNIE model:
 
-```
-ERNIE/
-├── bert_config.json
-├── pytorch_model.bin
-└── vocab.txt
-```
+|model|description|
+|:---:|:---:|
+|[ERNIE 1.0 Base for Chinese](https://nghuyong.oss-cn-hangzhou.aliyuncs.com/ERNIE_stable-1.0.1-pytorch.zip)|with params, config and vocabs|
+|[ERNIE 1.0 Base for Chinese(max-len-512)](https://nghuyong.oss-cn-hangzhou.aliyuncs.com/ERNIE_1.0_max-len-512-pytorch.zip)|with params, config and vocabs|
 
 ### Convert by yourself
 
-1. Download the paddle-paddle version ERNIE model,config and vocab from [here](https://github.com/PaddlePaddle/LARK/tree/develop/ERNIE) and move to this project path.
+1. Download the paddle-paddle version ERNIE1.0 model from [here](https://github.com/PaddlePaddle/ERNIE#models), and move to this project path.
 
 2. check the `add_argument` in `convert_ernie_to_pytorch.py` and run `python convert_ernie_to_pytorch.py`, you can get the log:
 
 ```
 ===================extract weights start====================
-model config:
-attention_probs_dropout_prob: 0.1
-hidden_act: relu
-hidden_dropout_prob: 0.1
-hidden_size: 768
-initializer_range: 0.02
-max_position_embeddings: 513
-num_attention_heads: 12
-num_hidden_layers: 12
-type_vocab_size: 2
-vocab_size: 18000
-------------------------------------------------
 word_embedding -> bert.embeddings.word_embeddings.weight (18000, 768)
 pos_embedding -> bert.embeddings.position_embeddings.weight (513, 768)
 sent_embedding -> bert.embeddings.token_type_embeddings.weight (2, 768)
@@ -89,52 +77,32 @@ finish save vocab
 ## Test
 
 ```Python
+#!/usr/bin/env python
+# encoding: utf-8
 import torch
-from pytorch_pretrained_bert import BertTokenizer, BertModel
+from pytorch_transformers import BertTokenizer, BertModel
 
 # Load pre-trained model tokenizer (vocabulary)
-tokenizer = BertTokenizer.from_pretrained('./ERNIE')
+tokenizer = BertTokenizer.from_pretrained('./ERNIE-converted')
 
-# Tokenized input
-text = "[CLS] 这 是 百度 的 ERNIE 模型 [SEP]"
-tokenized_text = tokenizer.tokenize(text)
+input_ids = torch.tensor([tokenizer.encode("这是百度的ERNIE1.0模型")])
 
-# Convert token to vocabulary indices
-indexed_tokens = tokenizer.convert_tokens_to_ids(tokenized_text)
+model = BertModel.from_pretrained('./ERNIE-converted')
 
-print('indexed_tokens', indexed_tokens)
-print('token length', len(indexed_tokens))
+all_hidden_states, all_attentions = model(input_ids)[-2:]
 
-segments_ids = [0] * len(indexed_tokens)
-
-# Convert inputs to PyTorch tensors
-tokens_tensor = torch.tensor([indexed_tokens])
-segments_tensors = torch.tensor([segments_ids])
-
-# Load pre-trained model (weights)
-model = BertModel.from_pretrained('./ERNIE')
-model.eval()
-
-# Predict hidden states features for each layer
-with torch.no_grad():
-    encoded_layers, _ = model(tokens_tensor, segments_tensors)
-# We have a hidden states for each of the 12 layers in model bert-base-uncased
-assert len(encoded_layers) == 12
-
-print('last layer shape', encoded_layers[-1].shape, 'and value is ')
-print(encoded_layers[-1])
-
+print('all_hidden_states shape', all_hidden_states.shape)
+print(all_hidden_states)
 """
-indexed_tokens [1, 47, 10, 502, 130, 5, 9150, 10490, 469, 289, 2]
-token length 11
-last layer shape torch.Size([1, 11, 768]) and value is
-tensor([[[ -0.3116,   0.4061,  -0.8272,  ...,  -0.9734,  -1.0078,  -0.3976],
-         [  0.7068,  -0.2950,  -0.0637,  ...,  -0.2928,  -0.6499,  -1.8806],
-         [  0.1266,   0.0512,   0.4579,  ...,  -0.6819,  -0.5113,  -3.4221],
+all_hidden_states shape torch.Size([1, 12, 768])
+tensor([[[-0.2229, -0.3131,  0.0088,  ...,  0.0199, -1.0507,  0.5315],
+         [-0.8425, -0.0086,  0.2039,  ..., -0.1681,  0.0459, -1.1015],
+         [ 0.7147,  0.1788,  0.7055,  ...,  0.4651,  0.8798, -0.5982],
          ...,
-         [  0.6971,  -0.0681,   0.3795,  ...,   0.1983,  -0.3936,  -0.8244],
-         [ -0.4181,  -0.3663,   0.4874,  ...,   0.4876,  -0.0783,  -2.6979],
-         [ -0.3116,   0.4061,  -0.8272,  ...,  -0.9734,  -1.0078,  -0.3976]]])
+         [-0.9507, -0.3732, -0.9508,  ...,  0.4992, -0.0545,  1.2238],
+         [ 0.2940,  0.0286, -0.2381,  ...,  1.0630,  0.0387, -0.5267],
+         [-0.1940,  0.1136,  0.0118,  ...,  0.9859,  0.4807, -1.5650]]],
+       grad_fn=<NativeLayerNormBackward>)
 """
 ```
 

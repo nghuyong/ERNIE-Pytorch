@@ -1,37 +1,27 @@
 #!/usr/bin/env python
 # encoding: utf-8
 import torch
-from pytorch_pretrained_bert import BertTokenizer, BertModel
-
+from pytorch_transformers import BertTokenizer, BertModel
 
 # Load pre-trained model tokenizer (vocabulary)
-tokenizer = BertTokenizer.from_pretrained('./ERNIE')
+tokenizer = BertTokenizer.from_pretrained('./ERNIE-converted')
 
-# Tokenized input
-text = "[CLS] 这 是 百度 的 ERNIE 模型 [SEP]"
-tokenized_text = tokenizer.tokenize(text)
+input_ids = torch.tensor([tokenizer.encode("这是百度的ERNIE1.0模型")])
 
-# Convert token to vocabulary indices
-indexed_tokens = tokenizer.convert_tokens_to_ids(tokenized_text)
+model = BertModel.from_pretrained('./ERNIE-converted')
 
-print('indexed_tokens', indexed_tokens)
-print('token length', len(indexed_tokens))
+all_hidden_states, all_attentions = model(input_ids)[-2:]
 
-segments_ids = [0] * len(indexed_tokens)
-
-# Convert inputs to PyTorch tensors
-tokens_tensor = torch.tensor([indexed_tokens])
-segments_tensors = torch.tensor([segments_ids])
-
-# Load pre-trained model (weights)
-model = BertModel.from_pretrained('./ERNIE')
-model.eval()
-
-# Predict hidden states features for each layer
-with torch.no_grad():
-    encoded_layers, _ = model(tokens_tensor, segments_tensors)
-# We have a hidden states for each of the 12 layers in model bert-base-uncased
-assert len(encoded_layers) == 12
-
-print('last layer shape', encoded_layers[-1].shape, 'and value is ')
-print(encoded_layers[-1])
+print('all_hidden_states shape', all_hidden_states.shape)
+print(all_hidden_states)
+"""
+all_hidden_states shape torch.Size([1, 12, 768])
+tensor([[[-0.2229, -0.3131,  0.0088,  ...,  0.0199, -1.0507,  0.5315],
+         [-0.8425, -0.0086,  0.2039,  ..., -0.1681,  0.0459, -1.1015],
+         [ 0.7147,  0.1788,  0.7055,  ...,  0.4651,  0.8798, -0.5982],
+         ...,
+         [-0.9507, -0.3732, -0.9508,  ...,  0.4992, -0.0545,  1.2238],
+         [ 0.2940,  0.0286, -0.2381,  ...,  1.0630,  0.0387, -0.5267],
+         [-0.1940,  0.1136,  0.0118,  ...,  0.9859,  0.4807, -1.5650]]],
+       grad_fn=<NativeLayerNormBackward>)
+"""
