@@ -4,7 +4,7 @@ This project is to convert [ERNIE](https://github.com/PaddlePaddle/ERNIE) to [py
 
 ERNIE is based on the Bert model and has better performance on Chinese NLP tasks.
 
-**Currently only supports conversion of ERNIE version 1.0.**
+**Currently this project only supports the conversion of ERNIE 1.0 version.**
 
 ## How to use
 You can use the version I have converted or convert it by yourself.
