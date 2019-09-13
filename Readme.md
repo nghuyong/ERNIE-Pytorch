@@ -15,8 +15,8 @@ Directly download has converted ERNIE model:
 
 |model|description|
 |:---:|:---:|
-|[ERNIE 1.0 Base for Chinese](https://nghuyong.oss-cn-hangzhou.aliyuncs.com/ERNIE_stable-1.0.1-pytorch.zip)|with params, config and vocabs|
-|[ERNIE 1.0 Base for Chinese(max-len-512)](https://nghuyong.oss-cn-hangzhou.aliyuncs.com/ERNIE_1.0_max-len-512-pytorch.zip)|with params, config and vocabs|
+|[ERNIE 1.0 Base for Chinese](https://drive.google.com/open?id=1k7G41gaQvaqOhmQt-b5KSj27YcHjdSpV)|with params, config and vocabs|
+|[ERNIE 1.0 Base for Chinese(max-len-512)](https://drive.google.com/open?id=1il88pC5DabgypSYAF8pq_E2cuNrNuUAC)|with params, config and vocabs|
 
 ### Convert by yourself
 
