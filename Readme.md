@@ -9,6 +9,12 @@ ERNIE is based on the Bert model and has better performance on Chinese NLP tasks
 ## How to use
 You can use the version I have converted or convert it by yourself.
 
+requirements
+
+```txt
+paddlepaddle-gpu==1.4.0.post87
+```
+
 ### Directly Download
 
 Directly download has converted ERNIE model:
@@ -73,6 +79,33 @@ finish save config
 finish save vocab
 ======================save model done!======================
 ```
+
+### Obtain the parameters for Mask-LM task
+
+Run `python convert_ernie_to_pytorch_v2.py` (which is modified from `convert_ernie_to_pytorch.py`), it will save the following parameters extra
+
+```yml
+{
+        'mask_lm_trans_fc.b_0': 'cls.predictions.transform.dense.bias',
+        'mask_lm_trans_fc.w_0': 'cls.predictions.transform.dense.weight',
+        'mask_lm_trans_layer_norm_scale': 'cls.predictions.transform.LayerNorm.weight',
+        'mask_lm_trans_layer_norm_bias': 'cls.predictions.transform.LayerNorm.bias',
+        'mask_lm_out_fc.b_0': 'cls.predictions.bias'
+}
+```
+
+You can use `BertForMaskedLM` from [pytorch-transformers](https://github.com/huggingface/pytorch-transformers) to test the converted model, an example is shown below, where bert-base is google's Chinese-BERT, bert-wwm and bert-wwm-ext are download from [Chinese-BERT-wwm](https://github.com/ymcui/Chinese-BERT-wwm).
+```yml
+input: [MASK] [MASK] [MASK] 是中国神魔小说的经典之作，与《三国演义》《水浒传》《红楼梦》并称为中国古典四大名。
+output:
+{
+        "bert-base": "《 神 》",
+        "bert-wwm": "天 神 奇",
+        "bert-wwm-ext": "西 游 记",
+        "ernie": "西 游 记"
+}
+```
+
 
 ## Test
 
