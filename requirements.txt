@@ -1,0 +1,8 @@
+torch==1.2.0
+transformers==3.0.2
+paddlepaddle==1.8.2
+numpy
+pyzmq==18.0.2
+six==1.11.0
+sklearn==0.0
+sentencepiece==0.1.8
