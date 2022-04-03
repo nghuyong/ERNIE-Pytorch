@@ -18,7 +18,7 @@ model = AutoModel.from_pretrained("nghuyong/ernie-1.0")
 |ernie-2.0-en|English|nghuyong/ernie-2.0-en|Layer:12, Hidden:768, Heads:12|
 |ernie-2.0-large-en|English|nghuyong/ernie-2.0-large-en|Layer:24, Hidden:1024, Heads16|
 
-You can find all these supported ERNIE's models on huggingface's model hub: https://huggingface.co/nghuyong, 
+You can find all the supported models from huggingface's model hub: https://huggingface.co/nghuyong, 
 and model details from ERNIE's official repo: https://github.com/PaddlePaddle/ERNIE.
 
 ## Details
