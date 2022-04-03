@@ -93,35 +93,11 @@ def extract_and_convert(input_dir, output_dir):
 
 
 if __name__ == '__main__':
-    # from transformers import BertTokenizer, BertForMaskedLM, TFBertForMaskedLM
-    # extract_and_convert('./model-ernie1.0.1.tar', './convert')
-    # tokenizer = BertTokenizer.from_pretrained('./convert')
-    # model = BertForMaskedLM.from_pretrained('./convert')
-    # tf_model = TFBertForMaskedLM.from_pretrained("./convert", from_pt=True)
-    # model.save_pretrained('./ernie-1.0')
-    # tokenizer.save_pretrained('./ernie-1.0')
-    # tf_model.save_pretrained("./ernie-1.0")
-    import torch
-    from transformers import BertTokenizer, BertForMaskedLM
-
-    tokenizer = BertTokenizer.from_pretrained('nghuyong/ernie-1.0')
-
-    input_tx = "[CLS] [MASK] [MASK] [MASK] 是黑龙江的省会城市[SEP]"
-    tokenized_text = tokenizer.tokenize(input_tx)
-    indexed_tokens = tokenizer.convert_tokens_to_ids(tokenized_text)
-
-    tokens_tensor = torch.tensor([indexed_tokens])
-    segments_tensors = torch.tensor([[0] * len(tokenized_text)])
-
-    model = BertForMaskedLM.from_pretrained('nghuyong/ernie-1.0')
-    model.eval()
-
-    with torch.no_grad():
-        outputs = model(tokens_tensor, token_type_ids=segments_tensors)
-        predictions = outputs[0]
-
-    predicted_index = [torch.argmax(predictions[0, i]).item() for i in range(0, (len(tokenized_text) - 1))]
-    predicted_token = [tokenizer.convert_ids_to_tokens([predicted_index[x]])[0] for x in
-                       range(1, (len(tokenized_text) - 1))]
-
-    print('Predicted token is:', predicted_token)
+    from transformers import BertTokenizer, BertForMaskedLM, TFBertForMaskedLM
+    extract_and_convert('./model-ernie1.0.1.tar', './convert')
+    tokenizer = BertTokenizer.from_pretrained('./convert')
+    model = BertForMaskedLM.from_pretrained('./convert')
+    tf_model = TFBertForMaskedLM.from_pretrained("./convert", from_pt=True)
+    model.save_pretrained('./ernie-1.0')
+    tokenizer.save_pretrained('./ernie-1.0')
+    tf_model.save_pretrained("./ernie-1.0")
