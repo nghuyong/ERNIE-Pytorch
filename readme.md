@@ -5,9 +5,9 @@ This project is to convert [ERNIE](https://github.com/PaddlePaddle/ERNIE) series
 ## Get Started
 Take `ernie-1.0` as example:
 ```Python
-from transformers import AutoTokenizer, AutoModel
-tokenizer = AutoTokenizer.from_pretrained("nghuyong/ernie-1.0")
-model = AutoModel.from_pretrained("nghuyong/ernie-1.0")
+from transformers import BertTokenizer, BertModel
+tokenizer = BertTokenizer.from_pretrained("nghuyong/ernie-1.0")
+model = BertModel.from_pretrained("nghuyong/ernie-1.0")
 ```
 
 ### Supported Models
@@ -123,7 +123,7 @@ indexed_tokens = tokenizer.convert_tokens_to_ids(tokenized_text)
 tokens_tensor = torch.tensor([indexed_tokens])
 segments_tensors = torch.tensor([[0] * len(tokenized_text)])
 
-model = BertForMaskedLM.from_pretrained('./convert')
+model = BertForMaskedLM.from_pretrained('nghuyong/ernie-1.0')
 model.eval()
 
 with torch.no_grad():
