@@ -16,7 +16,8 @@ model = AutoModel.from_pretrained("nghuyong/ernie-1.0")
 |ernie-1.0|Chinese|nghuyong/ernie-1.0|Layer:12, Hidden:768, Heads:12|
 |ernie-tiny|English|nghuyong/ernie-tiny|Layer:3, Hdden:1024, Heads:16|
 |ernie-2.0-en|English|nghuyong/ernie-2.0-en|Layer:12, Hidden:768, Heads:12|
-|ernie-2.0-large-en|English|nghuyong/ernie-2.0-large-en|Layer:24, Hidden:1024, Heads16|
+|ernie-2.0-large-en|English|nghuyong/ernie-2.0-large-en|Layer:24, Hidden:1024, Heads:16|
+|ernie-gram-zh|Chinese|nghuyong/ernie-gram-zh|Layer:12, Hidden:768, Heads:12|
 
 You can find all the supported models from huggingface's model hub: https://huggingface.co/nghuyong, 
 and model details from ERNIE's official repo: https://github.com/PaddlePaddle/ERNIE.
@@ -81,8 +82,8 @@ tokenizer = BertTokenizer.from_pretrained('nghuyong/ernie-1.0')
 model = BertModel.from_pretrained('nghuyong/ernie-1.0')
 input_ids = torch.tensor([tokenizer.encode("hello world", add_special_tokens=True)])
 with torch.no_grad():
-    sequence_output, pooled_output = model(input_ids)
-print(pooled_output.cpu().numpy())
+    pooled_output = model(input_ids)[1]
+    print(pooled_output.numpy())
 
 """
 output:

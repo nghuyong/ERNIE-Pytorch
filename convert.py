@@ -14,12 +14,13 @@ import paddle.fluid.dygraph as D
 import torch
 from paddle import fluid
 
-
 # downloading paddlepaddle model
 # ERNIE1.0: https://ernie-github.cdn.bcebos.com/model-ernie1.0.1.tar.gz and unzip
 # ERNIE-tiny: https://ernie-github.cdn.bcebos.com/model-ernie_tiny.1.tar.gz and unzip
 # ERNIE2.0 https://ernie-github.cdn.bcebos.com/model-ernie2.0-en.1.tar.gz and unzip
 # ERNIE large https://ernie-github.cdn.bcebos.com/model-ernie2.0-large-en.1.tar.gz and unzip
+from transformers import BertTokenizer, BertForMaskedLM, BertModel
+
 
 def build_params_map(attention_num=12):
     """
@@ -77,7 +78,12 @@ def extract_and_convert(input_dir, output_dir):
     config['intermediate_size'] = 4 * config['hidden_size']
     json.dump(config, open(os.path.join(output_dir, 'config.json'), 'wt', encoding='utf-8'), indent=4)
     print('=' * 20 + 'save vocab file' + '=' * 20)
-    shutil.copyfile(os.path.join(input_dir, 'vocab.txt'), os.path.join(output_dir, 'vocab.txt'))
+    with open(os.path.join(input_dir, 'vocab.txt'), 'rt', encoding='utf-8') as f:
+        words = f.read().splitlines()
+    words = [word.split('\t')[0] for word in words]
+    with open(os.path.join(output_dir, 'vocab.txt'), 'wt', encoding='utf-8') as f:
+        for word in words:
+            f.write(word + "\n")
     print('=' * 20 + 'extract weights' + '=' * 20)
     state_dict = collections.OrderedDict()
     weight_map = build_params_map(attention_num=config['num_hidden_layers'])
@@ -87,17 +93,19 @@ def extract_and_convert(input_dir, output_dir):
         if 'weight' in weight_name:
             if 'encoder_stack' in weight_name or 'pooler' in weight_name or 'mlm.' in weight_name:
                 weight_value = weight_value.transpose()
+        if weight_name not in weight_map:
+            print('=' * 20, '[SKIP]', weight_name, '=' * 20)
+            continue
         state_dict[weight_map[weight_name]] = torch.FloatTensor(weight_value)
         print(weight_name, '->', weight_map[weight_name], weight_value.shape)
     torch.save(state_dict, os.path.join(output_dir, "pytorch_model.bin"))
 
 
 if __name__ == '__main__':
-    from transformers import BertTokenizer, BertForMaskedLM, TFBertForMaskedLM
-    extract_and_convert('./model-ernie1.0.1.tar', './convert')
+    extract_and_convert('./model-ernie-gram-zh.1', './convert')
     tokenizer = BertTokenizer.from_pretrained('./convert')
-    model = BertForMaskedLM.from_pretrained('./convert')
-    tf_model = TFBertForMaskedLM.from_pretrained("./convert", from_pt=True)
-    model.save_pretrained('./ernie-1.0')
-    tokenizer.save_pretrained('./ernie-1.0')
-    tf_model.save_pretrained("./ernie-1.0")
+    model = BertModel.from_pretrained('./convert')
+    input_ids = torch.tensor([tokenizer.encode("hello", add_special_tokens=True)])
+    with torch.no_grad():
+        pooled_output = model(input_ids)[1]
+        print(pooled_output.numpy())
