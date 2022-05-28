@@ -3,7 +3,7 @@
 This project is to convert [ERNIE](https://github.com/PaddlePaddle/ERNIE) series models from paddlepaddle to [huggingface's](https://github.com/huggingface/pytorch-transformers) format (in Pytorch).
 
 ## Get Started
-Take `ernie-1.0` as example:
+Take `ernie-1.0` as an example:
 ```Python
 from transformers import BertTokenizer, BertModel
 tokenizer = BertTokenizer.from_pretrained("nghuyong/ernie-1.0")
