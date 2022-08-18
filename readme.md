@@ -5,7 +5,7 @@ to [huggingface's](https://github.com/huggingface/pytorch-transformers) format (
 
 ## Get Started
 
-Take `ernie-1.0` as an example:
+Take `ernie-1.0-base-zh` as an example:
 
 ```Python
 from transformers import BertTokenizer, BertModel
