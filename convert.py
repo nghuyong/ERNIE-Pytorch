@@ -2,9 +2,9 @@
 # encoding: utf-8
 """
 File Description:
-基于ERNIE仓库进行ernie系列模型转换
-原始模型: https://github.com/PaddlePaddle/ERNIE/blob/repro/README.zh.md#%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8B%E8%BD%BD
-模型列表: ernie-1.0, ernie-2.0-en, ernie-2.0-large-en
+ernie series model conversion based on paddlenlp repository
+official repo: https://github.com/PaddlePaddle/ERNIE/blob/repro/README.zh.md#%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8B%E8%BD%BD
+model list: ernie-1.0, ernie-2.0-en, ernie-2.0-large-en
 Author: nghuyong
 Mail: nghuyong@163.com
 Created Time: 2020/7/14

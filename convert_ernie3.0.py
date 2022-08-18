@@ -2,8 +2,8 @@
 # encoding: utf-8
 """
 File Description:
-基于paddlenlp仓库进行ernie系列模型转换
-原始模型: https://github.com/PaddlePaddle/PaddleNLP/tree/develop/model_zoo
+ernie3.0 series model conversion based on paddlenlp repository
+official repo: https://github.com/PaddlePaddle/PaddleNLP/tree/develop/model_zoo
 Author: nghuyong liushu
 Mail: nghuyong@163.com 1554987494@qq.com
 Created Time: 2022/8/17
@@ -25,7 +25,7 @@ def build_params_map(attention_num=12):
         'ernie.embeddings.word_embeddings.weight': "bert.embeddings.word_embeddings.weight",
         'ernie.embeddings.position_embeddings.weight': "bert.embeddings.position_embeddings.weight",
         'ernie.embeddings.token_type_embeddings.weight': "bert.embeddings.token_type_embeddings.weight",
-        # 'ernie.embeddings.task_type_embeddings.weight': "bert.embeddings.task_type_embeddings.weight",
+        'ernie.embeddings.task_type_embeddings.weight': "bert.embeddings.task_type_embeddings.weight",
         'ernie.embeddings.layer_norm.weight': 'bert.embeddings.LayerNorm.gamma',
         'ernie.embeddings.layer_norm.bias': 'bert.embeddings.LayerNorm.beta',
     })
