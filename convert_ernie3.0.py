@@ -25,7 +25,7 @@ def build_params_map(attention_num=12):
         'ernie.embeddings.word_embeddings.weight': "bert.embeddings.word_embeddings.weight",
         'ernie.embeddings.position_embeddings.weight': "bert.embeddings.position_embeddings.weight",
         'ernie.embeddings.token_type_embeddings.weight': "bert.embeddings.token_type_embeddings.weight",
-        # 'ernie.embeddings.task_type_embeddings.weight':"bert.embeddings.task_type_embeddings.weight",
+        # 'ernie.embeddings.task_type_embeddings.weight': "bert.embeddings.task_type_embeddings.weight",
         'ernie.embeddings.layer_norm.weight': 'bert.embeddings.LayerNorm.gamma',
         'ernie.embeddings.layer_norm.bias': 'bert.embeddings.LayerNorm.beta',
     })
@@ -72,11 +72,13 @@ def extract_and_convert(input_dir, output_dir):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     print('=' * 20 + 'save config file' + '=' * 20)
-    config = json.load(open(os.path.join(input_dir, 'model_config.json'), 'rt', encoding='utf-8'))
+    config = json.load(open(os.path.join(input_dir, 'model_config.json'), 'rt', encoding='utf-8'))['init_args'][0]
     config['layer_norm_eps'] = 1e-5
+    config['model_type'] = 'bert'
+    config['architectures'] = ["BertForMaskedLM"]  # or 'BertModel'
     if 'sent_type_vocab_size' in config:
         config['type_vocab_size'] = config['sent_type_vocab_size']
-    config['intermediate_size'] = 4 * config['init_args'][0]['hidden_size']
+    config['intermediate_size'] = 4 * config['hidden_size']
     json.dump(config, open(os.path.join(output_dir, 'config.json'), 'wt', encoding='utf-8'), indent=4)
     print('=' * 20 + 'save vocab file' + '=' * 20)
     with open(os.path.join(input_dir, 'vocab.txt'), 'rt', encoding='utf-8') as f:
@@ -87,7 +89,7 @@ def extract_and_convert(input_dir, output_dir):
             f.write(word + "\n")
     print('=' * 20 + 'extract weights' + '=' * 20)
     state_dict = collections.OrderedDict()
-    weight_map = build_params_map(attention_num=config['init_args'][0]['num_hidden_layers'])
+    weight_map = build_params_map(attention_num=config['num_hidden_layers'])
     with fluid.dygraph.guard():
         paddle_paddle_params, _ = D.load_dygraph(os.path.join(input_dir, 'ernie_3.0_base_zh.pdparams'))
     for weight_name, weight_value in paddle_paddle_params.items():
@@ -103,4 +105,4 @@ def extract_and_convert(input_dir, output_dir):
 
 
 if __name__ == '__main__':
-    extract_and_convert('./ernie-3.0-base-zh', './ernie-3.0-base-zh-torch')
+    extract_and_convert('./ernie-3.0-base-zh/', './convert/')

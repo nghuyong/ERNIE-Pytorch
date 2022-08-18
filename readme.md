@@ -19,20 +19,23 @@ model = BertModel.from_pretrained("nghuyong/ernie-1.0-base-zh")
 |     Model Name      | Language |           Description           |
 |:-------------------:|:--------:|:-------------------------------:|
 |  ernie-1.0-base-zh  | Chinese  | Layer:12, Heads:12, Hidden:768  |
-|    ernie-tiny-zh    | Chinese  | Layer:3, Heads:16, Hidden:1024  |
 |  ernie-2.0-base-en  | English  | Layer:12, Heads:12, Hidden:768  |
 | ernie-2.0-large-en  | English  | Layer:24, Heads:16, Hidden:1024 |
-|  ernie-3.0-base-zh  | Chinese  | Layer:12, Heads:12, Hidden:768  |
-| ernie-3.0-medium-zh | Chinese  |  Layer:6, Heads:12, Hidden:768  |
-|  ernie-3.0-mini-zh  | Chinese  |  Layer:6, Heads:12, Hidden:384  |
-| ernie-3.0-micro-zh  | Chinese  |  Layer:4, Heads:12, Hidden:384  |
-|  ernie-3.0-nano-zh  | Chinese  |  Layer:4, Heads:12, Hidden:312  |
+
+[//]: # (|  ernie-3.0-base-zh  | Chinese  | Layer:12, Heads:12, Hidden:768  |)
+
+[//]: # (| ernie-3.0-medium-zh | Chinese  |  Layer:6, Heads:12, Hidden:768  |)
+
+[//]: # (|  ernie-3.0-mini-zh  | Chinese  |  Layer:6, Heads:12, Hidden:384  |)
+
+[//]: # (| ernie-3.0-micro-zh  | Chinese  |  Layer:4, Heads:12, Hidden:384  |)
+
+[//]: # (|  ernie-3.0-nano-zh  | Chinese  |  Layer:4, Heads:12, Hidden:312  |)
 
 You can find all the supported models from huggingface's model
 hub: [huggingface.co/nghuyong](https://huggingface.co/nghuyong),
 and model details from paddle's official
-repo: [ERNIE](https://github.com/PaddlePaddle/ERNIE/blob/repro)
-and [PaddleNLP](https://paddlenlp.readthedocs.io/zh/latest/model_zoo/transformers/ERNIE/contents.html)
+repo:[PaddleNLP](https://paddlenlp.readthedocs.io/zh/latest/model_zoo/transformers/ERNIE/contents.html) and [ERNIE](https://github.com/PaddlePaddle/ERNIE/blob/repro)
 
 ## Details
 

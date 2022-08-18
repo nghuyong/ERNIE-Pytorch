@@ -4,7 +4,7 @@
 File Description:
 基于ERNIE仓库进行ernie系列模型转换
 原始模型: https://github.com/PaddlePaddle/ERNIE/blob/repro/README.zh.md#%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8B%E8%BD%BD
-模型列表: ernie-1.0, ernie-2.0-en, ernie-2.0-large-en, ernie-tiny-zh
+模型列表: ernie-1.0, ernie-2.0-en, ernie-2.0-large-en
 Author: nghuyong
 Mail: nghuyong@163.com
 Created Time: 2020/7/14
@@ -74,6 +74,8 @@ def extract_and_convert(input_dir, output_dir):
     print('=' * 20 + 'save config file' + '=' * 20)
     config = json.load(open(os.path.join(input_dir, 'ernie_config.json'), 'rt', encoding='utf-8'))
     config['layer_norm_eps'] = 1e-5
+    config['model_type'] = 'bert'
+    config['architectures'] = ["BertForMaskedLM"]  # or 'BertModel'
     if 'sent_type_vocab_size' in config:
         config['type_vocab_size'] = config['sent_type_vocab_size']
     config['intermediate_size'] = 4 * config['hidden_size']
@@ -102,4 +104,4 @@ def extract_and_convert(input_dir, output_dir):
 
 
 if __name__ == '__main__':
-    extract_and_convert('./ERNIE_1.0_max-len-512', './convert')
+    extract_and_convert('./ERNIE_Large_en_stable-2.0.0', './convert')
