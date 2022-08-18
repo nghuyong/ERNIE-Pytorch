@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-File Description: 
+File Description:
+基于paddlenlp仓库进行ernie系列模型转换
+原始模型: https://github.com/PaddlePaddle/PaddleNLP/tree/develop/model_zoo
 Author: nghuyong liushu
 Mail: nghuyong@163.com 1554987494@qq.com
 Created Time: 2022/8/17
@@ -9,17 +11,9 @@ Created Time: 2022/8/17
 import collections
 import os
 import json
-import shutil
 import paddle.fluid.dygraph as D
 import torch
 from paddle import fluid
-
-# downloading paddlepaddle model
-# ERNIE1.0: https://ernie-github.cdn.bcebos.com/model-ernie1.0.1.tar.gz and unzip
-# ERNIE-tiny: https://ernie-github.cdn.bcebos.com/model-ernie_tiny.1.tar.gz and unzip
-# ERNIE2.0 https://ernie-github.cdn.bcebos.com/model-ernie2.0-en.1.tar.gz and unzip
-# ERNIE large https://ernie-github.cdn.bcebos.com/model-ernie2.0-large-en.1.tar.gz and unzip
-from transformers import BertTokenizer, BertForMaskedLM, BertModel
 
 
 def build_params_map(attention_num=12):
@@ -69,6 +63,12 @@ def build_params_map(attention_num=12):
 
 
 def extract_and_convert(input_dir, output_dir):
+    """
+    抽取并转换
+    :param input_dir:
+    :param output_dir:
+    :return:
+    """
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     print('=' * 20 + 'save config file' + '=' * 20)
@@ -104,9 +104,3 @@ def extract_and_convert(input_dir, output_dir):
 
 if __name__ == '__main__':
     extract_and_convert('./ernie-3.0-base-zh', './ernie-3.0-base-zh-torch')
-    tokenizer = BertTokenizer.from_pretrained('./ernie-3.0-base-zh-torch')
-    model = BertModel.from_pretrained('./ernie-3.0-base-zh-torch')
-    input_ids = torch.tensor([tokenizer.encode("hello", add_special_tokens=True)])
-    with torch.no_grad():
-        pooled_output = model(input_ids)[1]
-        print(pooled_output.numpy())
