@@ -12,7 +12,7 @@ import os
 import sys
 import torch
 from transformers import BertModel, BertTokenizer
-# from modeling.bert_ernie.modeling_bert import BertModel
+# from bert_ernie3.modeling_bert import BertModel
 tokenizer = BertTokenizer.from_pretrained('./ernie-3.0-base-zh-torch')
 model = BertModel.from_pretrained('./ernie-3.0-base-zh-torch')
 input_ids = torch.tensor([tokenizer.encode(text="你好",add_special_tokens=True)])
