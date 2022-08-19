@@ -29,7 +29,6 @@ def cloze_check():
     predicted_token = [tokenizer._convert_id_to_token(predicted_index[i]) for i in
                        range(1, (predictions.shape[0] - 1))]
     print('huggingface result')
-    print('prediction shape:\t', predictions.shape)
     print('predict result:\t', predicted_token)
     print('[CLS] logit:\t', predictions[0].numpy())
     tokenizer = ErnieTokenizer.from_pretrained("ernie-1.0-base-zh")
@@ -43,7 +42,6 @@ def cloze_check():
     predicted_token = [tokenizer._convert_id_to_token(predicted_index[i]) for i in
                        range(1, (predictions.shape[0] - 1))]
     print('paddle result')
-    print('prediction shape:\t', predictions.shape)
     print('predict result:\t', predicted_token)
     print('[CLS] logit:\t', predictions[0].numpy())
 
