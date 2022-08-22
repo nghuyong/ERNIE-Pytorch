@@ -31,7 +31,7 @@ and model details from paddle's official
 repo: [PaddleNLP](https://paddlenlp.readthedocs.io/zh/latest/model_zoo/transformers/ERNIE/contents.html)
 and [ERNIE](https://github.com/PaddlePaddle/ERNIE/blob/repro).
 
-### Note for ERNIE3.0
+### Note for ERNIE-3.0
 If you want to use ernie-3.0 series models, you need to add `task_type_id` to BERT model following this [MR](https://github.com/huggingface/transformers/pull/18686/files) 
 **OR** you can re-install the transformers from my changed branch.
 ```bash
