@@ -23,6 +23,7 @@ model = BertModel.from_pretrained("nghuyong/ernie-1.0-base-zh")
 | ernie-2.0-large-en | English  | Layer:24, Heads:16, Hidden:1024 |
 | ernie-3.0-base-zh  | Chinese  | Layer:12, Heads:12, Hidden:768  |
 |  ernie-health-zh   | Chinese  | Layer:12, Heads:12, Hidden:768  |
+|   ernie-gram-zh    | Chinese  | Layer:12, Heads:12, Hidden:768  |
 
 You can find all the supported models from huggingface's model
 hub: [huggingface.co/nghuyong](https://huggingface.co/nghuyong),
@@ -35,7 +36,7 @@ If you want to use ernie-3.0 series models, you need to add `task_type_id` to BE
 **OR** you can re-install the transformers from my changed branch.
 ```bash
 pip uninstall transformers # optional
-pip install git+https://github.com/nghuyong/transformers@add_task_type_id # reinstall
+pip install git+https://github.com/nghuyong/transformers@add_task_type_id # reinstall, 4.22.0.dev0
 ```
 Then you can load ERNIE-3.0 model as before:
 ```Python
