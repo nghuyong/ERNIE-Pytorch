@@ -89,9 +89,9 @@ def extract_and_convert(input_dir, output_dir):
             f.write(word + "\n")
     print('=' * 20 + 'extract weights' + '=' * 20)
     state_dict = collections.OrderedDict()
-    weight_map = build_params_map(attention_num=config['num_hidden_layers'] + 1)
+    weight_map = build_params_map(attention_num=config['num_hidden_layers'])
     with fluid.dygraph.guard():
-        paddle_paddle_params, _ = D.load_dygraph(os.path.join(input_dir, 'ernie_3.0_mini_zh.pdparams'))
+        paddle_paddle_params, _ = D.load_dygraph(os.path.join(input_dir, 'ernie_3.0_base_zh.pdparams'))
     for weight_name, weight_value in paddle_paddle_params.items():
         if 'weight' in weight_name:
             if 'ernie.encoder' in weight_name or 'ernie.pooler' in weight_name or 'cls.' in weight_name:
@@ -107,6 +107,6 @@ def extract_and_convert(input_dir, output_dir):
 if __name__ == '__main__':
     from paddlenlp.transformers import ErnieForMaskedLM, ErnieTokenizer
 
-    tokenizer = ErnieTokenizer.from_pretrained("ernie-3.0-mini-zh")
-    model = ErnieForMaskedLM.from_pretrained("ernie-3.0-mini-zh")
-    extract_and_convert('/Users/huyong/.paddlenlp/models/ernie-3.0-mini-zh/', './convert/')
+    tokenizer = ErnieTokenizer.from_pretrained("ernie-3.0-base-zh")
+    model = ErnieForMaskedLM.from_pretrained("ernie-3.0-base-zh")
+    extract_and_convert('/Users/huyong/.paddlenlp/models/ernie-3.0-base-zh/', './convert/')
