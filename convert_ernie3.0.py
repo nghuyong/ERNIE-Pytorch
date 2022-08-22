@@ -72,7 +72,10 @@ def extract_and_convert(input_dir, output_dir):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     print('=' * 20 + 'save config file' + '=' * 20)
-    config = json.load(open(os.path.join(input_dir, 'model_config.json'), 'rt', encoding='utf-8'))['init_args'][0]
+    config = json.load(open(os.path.join(input_dir, 'model_config.json'), 'rt', encoding='utf-8'))
+    if 'init_args' in config:
+        config = config['init_args'][0]
+    del config['init_class']
     config['layer_norm_eps'] = 1e-5
     config['model_type'] = 'bert'
     config['architectures'] = ["BertForMaskedLM"]  # or 'BertModel'
