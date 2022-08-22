@@ -76,8 +76,6 @@ def extract_and_convert(input_dir, output_dir):
     config['layer_norm_eps'] = 1e-5
     config['model_type'] = 'bert'
     config['architectures'] = ["BertForMaskedLM"]  # or 'BertModel'
-    if 'sent_type_vocab_size' in config:
-        config['type_vocab_size'] = config['sent_type_vocab_size']
     config['intermediate_size'] = 4 * config['hidden_size']
     json.dump(config, open(os.path.join(output_dir, 'config.json'), 'wt', encoding='utf-8'), indent=4)
     print('=' * 20 + 'save vocab file' + '=' * 20)
