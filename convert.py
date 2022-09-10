@@ -2,12 +2,12 @@
 # encoding: utf-8
 """
 File Description:
-ernie series model conversion based on paddlenlp repository
-official repo: https://github.com/PaddlePaddle/ERNIE/blob/repro/README.zh.md#%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8B%E8%BD%BD
-model list: ernie-1.0, ernie-2.0-en, ernie-2.0-large-en
-Author: nghuyong
-Mail: nghuyong@163.com
-Created Time: 2020/7/14
+ernie3.0 series model conversion based on paddlenlp repository
+ernie2.0 series model conversion based on paddlenlp repository
+official repo: https://github.com/PaddlePaddle/PaddleNLP/tree/develop/model_zoo
+Author: nghuyong liushu
+Mail: nghuyong@163.com 1554987494@qq.com
+Created Time: 2022/8/17
 """
 import collections
 import os
@@ -23,40 +23,41 @@ def build_params_map(attention_num=12):
     :return:
     """
     weight_map = collections.OrderedDict({
-        'word_embedding': "bert.embeddings.word_embeddings.weight",
-        'pos_embedding': "bert.embeddings.position_embeddings.weight",
-        'sent_embedding': "bert.embeddings.token_type_embeddings.weight",
-        'pre_encoder_layer_norm_scale': 'bert.embeddings.LayerNorm.gamma',
-        'pre_encoder_layer_norm_bias': 'bert.embeddings.LayerNorm.beta',
+        'ernie.embeddings.word_embeddings.weight': "ernie.embeddings.word_embeddings.weight",
+        'ernie.embeddings.position_embeddings.weight': "ernie.embeddings.position_embeddings.weight",
+        'ernie.embeddings.token_type_embeddings.weight': "ernie.embeddings.token_type_embeddings.weight",
+        'ernie.embeddings.task_type_embeddings.weight': "ernie.embeddings.task_type_embeddings.weight",
+        'ernie.embeddings.layer_norm.weight': 'ernie.embeddings.LayerNorm.gamma',
+        'ernie.embeddings.layer_norm.bias': 'ernie.embeddings.LayerNorm.beta',
     })
     # add attention layers
     for i in range(attention_num):
-        weight_map[f'encoder_layer_{i}_multi_head_att_query_fc.w_0'] = f'bert.encoder.layer.{i}.attention.self.query.weight'
-        weight_map[f'encoder_layer_{i}_multi_head_att_query_fc.b_0'] = f'bert.encoder.layer.{i}.attention.self.query.bias'
-        weight_map[f'encoder_layer_{i}_multi_head_att_key_fc.w_0'] = f'bert.encoder.layer.{i}.attention.self.key.weight'
-        weight_map[f'encoder_layer_{i}_multi_head_att_key_fc.b_0'] = f'bert.encoder.layer.{i}.attention.self.key.bias'
-        weight_map[f'encoder_layer_{i}_multi_head_att_value_fc.w_0'] = f'bert.encoder.layer.{i}.attention.self.value.weight'
-        weight_map[f'encoder_layer_{i}_multi_head_att_value_fc.b_0'] = f'bert.encoder.layer.{i}.attention.self.value.bias'
-        weight_map[f'encoder_layer_{i}_multi_head_att_output_fc.w_0'] = f'bert.encoder.layer.{i}.attention.output.dense.weight'
-        weight_map[f'encoder_layer_{i}_multi_head_att_output_fc.b_0'] = f'bert.encoder.layer.{i}.attention.output.dense.bias'
-        weight_map[f'encoder_layer_{i}_post_att_layer_norm_scale'] = f'bert.encoder.layer.{i}.attention.output.LayerNorm.gamma'
-        weight_map[f'encoder_layer_{i}_post_att_layer_norm_bias'] = f'bert.encoder.layer.{i}.attention.output.LayerNorm.beta'
-        weight_map[f'encoder_layer_{i}_ffn_fc_0.w_0'] = f'bert.encoder.layer.{i}.intermediate.dense.weight'
-        weight_map[f'encoder_layer_{i}_ffn_fc_0.b_0'] = f'bert.encoder.layer.{i}.intermediate.dense.bias'
-        weight_map[f'encoder_layer_{i}_ffn_fc_1.w_0'] = f'bert.encoder.layer.{i}.output.dense.weight'
-        weight_map[f'encoder_layer_{i}_ffn_fc_1.b_0'] = f'bert.encoder.layer.{i}.output.dense.bias'
-        weight_map[f'encoder_layer_{i}_post_ffn_layer_norm_scale'] = f'bert.encoder.layer.{i}.output.LayerNorm.gamma'
-        weight_map[f'encoder_layer_{i}_post_ffn_layer_norm_bias'] = f'bert.encoder.layer.{i}.output.LayerNorm.beta'
+        weight_map[f'ernie.encoder.layers.{i}.self_attn.q_proj.weight'] = f'ernie.encoder.layer.{i}.attention.self.query.weight'
+        weight_map[f'ernie.encoder.layers.{i}.self_attn.q_proj.bias'] = f'ernie.encoder.layer.{i}.attention.self.query.bias'
+        weight_map[f'ernie.encoder.layers.{i}.self_attn.k_proj.weight'] = f'ernie.encoder.layer.{i}.attention.self.key.weight'
+        weight_map[f'ernie.encoder.layers.{i}.self_attn.k_proj.bias'] = f'ernie.encoder.layer.{i}.attention.self.key.bias'
+        weight_map[f'ernie.encoder.layers.{i}.self_attn.v_proj.weight'] = f'ernie.encoder.layer.{i}.attention.self.value.weight'
+        weight_map[f'ernie.encoder.layers.{i}.self_attn.v_proj.bias'] = f'ernie.encoder.layer.{i}.attention.self.value.bias'
+        weight_map[f'ernie.encoder.layers.{i}.self_attn.out_proj.weight'] = f'ernie.encoder.layer.{i}.attention.output.dense.weight'
+        weight_map[f'ernie.encoder.layers.{i}.self_attn.out_proj.bias'] = f'ernie.encoder.layer.{i}.attention.output.dense.bias'
+        weight_map[f'ernie.encoder.layers.{i}.norm1.weight'] = f'ernie.encoder.layer.{i}.attention.output.LayerNorm.gamma'
+        weight_map[f'ernie.encoder.layers.{i}.norm1.bias'] = f'ernie.encoder.layer.{i}.attention.output.LayerNorm.beta'
+        weight_map[f'ernie.encoder.layers.{i}.linear1.weight'] = f'ernie.encoder.layer.{i}.intermediate.dense.weight'
+        weight_map[f'ernie.encoder.layers.{i}.linear1.bias'] = f'ernie.encoder.layer.{i}.intermediate.dense.bias'
+        weight_map[f'ernie.encoder.layers.{i}.linear2.weight'] = f'ernie.encoder.layer.{i}.output.dense.weight'
+        weight_map[f'ernie.encoder.layers.{i}.linear2.bias'] = f'ernie.encoder.layer.{i}.output.dense.bias'
+        weight_map[f'ernie.encoder.layers.{i}.norm2.weight'] = f'ernie.encoder.layer.{i}.output.LayerNorm.gamma'
+        weight_map[f'ernie.encoder.layers.{i}.norm2.bias'] = f'ernie.encoder.layer.{i}.output.LayerNorm.beta'
     # add pooler
     weight_map.update(
         {
-            'pooled_fc.w_0': 'bert.pooler.dense.weight',
-            'pooled_fc.b_0': 'bert.pooler.dense.bias',
-            'mask_lm_trans_fc.w_0': 'cls.predictions.transform.dense.weight',
-            'mask_lm_trans_fc.b_0': 'cls.predictions.transform.dense.bias',
-            'mask_lm_trans_layer_norm_scale': 'cls.predictions.transform.LayerNorm.gamma',
-            'mask_lm_trans_layer_norm_bias': 'cls.predictions.transform.LayerNorm.beta',
-            'mask_lm_out_fc.b_0': 'cls.predictions.bias'
+            'ernie.pooler.dense.weight': 'ernie.pooler.dense.weight',
+            'ernie.pooler.dense.bias': 'ernie.pooler.dense.bias',
+            'cls.predictions.transform.weight': 'cls.predictions.transform.dense.weight',
+            'cls.predictions.transform.bias': 'cls.predictions.transform.dense.bias',
+            'cls.predictions.layer_norm.weight': 'cls.predictions.transform.LayerNorm.gamma',
+            'cls.predictions.layer_norm.bias': 'cls.predictions.transform.LayerNorm.beta',
+            'cls.predictions.decoder_bias': 'cls.predictions.bias'
         }
     )
     return weight_map
@@ -64,7 +65,7 @@ def build_params_map(attention_num=12):
 
 def extract_and_convert(input_dir, output_dir):
     """
-    参数抽取以及转换
+    抽取并转换
     :param input_dir:
     :param output_dir:
     :return:
@@ -72,12 +73,13 @@ def extract_and_convert(input_dir, output_dir):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     print('=' * 20 + 'save config file' + '=' * 20)
-    config = json.load(open(os.path.join(input_dir, 'ernie_config.json'), 'rt', encoding='utf-8'))
+    config = json.load(open(os.path.join(input_dir, 'model_config.json'), 'rt', encoding='utf-8'))
+    if 'init_args' in config:
+        config = config['init_args'][0]
+    del config['init_class']
     config['layer_norm_eps'] = 1e-5
-    config['model_type'] = 'bert'
-    config['architectures'] = ["BertForMaskedLM"]  # or 'BertModel'
-    if 'sent_type_vocab_size' in config:  # for old version
-        config['type_vocab_size'] = config['sent_type_vocab_size']
+    config['model_type'] = 'ernie'
+    config['architectures'] = ["ErnieForMaskedLM"]  # or 'BertModel'
     config['intermediate_size'] = 4 * config['hidden_size']
     json.dump(config, open(os.path.join(output_dir, 'config.json'), 'wt', encoding='utf-8'), indent=4)
     print('=' * 20 + 'save vocab file' + '=' * 20)
@@ -91,10 +93,11 @@ def extract_and_convert(input_dir, output_dir):
     state_dict = collections.OrderedDict()
     weight_map = build_params_map(attention_num=config['num_hidden_layers'])
     with fluid.dygraph.guard():
-        paddle_paddle_params, _ = D.load_dygraph(os.path.join(input_dir, 'params'))
+        paddle_paddle_params, _ = D.load_dygraph(os.path.join(input_dir, 'ernie_v1_chn_base.pdparams'))
     for weight_name, weight_value in paddle_paddle_params.items():
-        if 'w_0' in weight_name:
-            weight_value = weight_value.transpose()
+        if 'weight' in weight_name:
+            if 'ernie.encoder' in weight_name or 'ernie.pooler' in weight_name or 'cls.' in weight_name:
+                weight_value = weight_value.transpose()
         if weight_name not in weight_map:
             print('=' * 20, '[SKIP]', weight_name, '=' * 20)
             continue
@@ -104,4 +107,4 @@ def extract_and_convert(input_dir, output_dir):
 
 
 if __name__ == '__main__':
-    extract_and_convert('./ERNIE_Large_en_stable-2.0.0', './convert')
+    extract_and_convert('/Users/huyong/.paddlenlp/models/ernie-1.0-base-zh/', './convert/')

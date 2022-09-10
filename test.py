@@ -8,8 +8,8 @@ Created Time: 2022/8/17
 """
 import paddle
 import torch
-from transformers import BertTokenizer, BertForMaskedLM, BertModel
-from paddlenlp.transformers import ErnieForMaskedLM, ErnieTokenizer, ErnieModel
+import transformers
+import paddlenlp
 import argparse
 
 
@@ -18,8 +18,8 @@ def cloze_check():
     compare cloze test
     :return:
     """
-    tokenizer = BertTokenizer.from_pretrained('nghuyong/ernie-1.0-base-zh')
-    model = BertForMaskedLM.from_pretrained('nghuyong/ernie-1.0-base-zh')
+    tokenizer = transformers.BertTokenizer.from_pretrained('./convert')
+    model = transformers.ErnieForMaskedLM.from_pretrained('./convert')
     input_ids = torch.tensor([tokenizer.encode(text="[MASK][MASK][MASK]是中国神魔小说的经典之作，与《三国演义》《水浒传》《红楼梦》并称为中国古典四大名著。",
                                                add_special_tokens=True)])
     model.eval()
@@ -31,8 +31,8 @@ def cloze_check():
     print('huggingface result')
     print('predict result:\t', predicted_token)
     print('[CLS] logit:\t', predictions[0].numpy())
-    tokenizer = ErnieTokenizer.from_pretrained("ernie-1.0-base-zh")
-    model = ErnieForMaskedLM.from_pretrained("ernie-1.0-base-zh")
+    tokenizer = paddlenlp.transformers.ErnieTokenizer.from_pretrained("ernie-1.0-base-zh")
+    model = paddlenlp.transformers.ErnieForMaskedLM.from_pretrained("ernie-1.0-base-zh")
     inputs = tokenizer("[MASK][MASK][MASK]是中国神魔小说的经典之作，与《三国演义》《水浒传》《红楼梦》并称为中国古典四大名著。")
     inputs = {k: paddle.to_tensor([v]) for (k, v) in inputs.items()}
     model.eval()
@@ -51,23 +51,23 @@ def logit_check():
     compare bert logit
     :return:
     """
-    tokenizer = BertTokenizer.from_pretrained('nghuyong/ernie-1.0-base-zh')
-    model = BertModel.from_pretrained('nghuyong/ernie-1.0-base-zh')
+    tokenizer = transformers.BertTokenizer.from_pretrained('./convert')
+    model = transformers.ErnieModel.from_pretrained('./convert')
     input_ids = torch.tensor([tokenizer.encode(text="welcome to ernie pytorch project", add_special_tokens=True)])
     model.eval()
     with torch.no_grad():
-        pooled_output = model(input_ids)[1]
+        pooled_output = model(input_ids)[0]
     print('huggingface result')
-    print('pool output:', pooled_output[0, :10].numpy())
-    tokenizer = ErnieTokenizer.from_pretrained("ernie-1.0-base-zh")
-    model = ErnieModel.from_pretrained("ernie-1.0-base-zh")
+    print('pool output:', pooled_output.numpy())
+    tokenizer = paddlenlp.transformers.AutoTokenizer.from_pretrained("ernie-1.0-base-zh")
+    model = paddlenlp.transformers.AutoModel.from_pretrained("ernie-1.0-base-zh")
     inputs = tokenizer("welcome to ernie pytorch project")
     inputs = {k: paddle.to_tensor([v]) for (k, v) in inputs.items()}
     model.eval()
     with paddle.no_grad():
-        pooled_output = model(**inputs)[1]
+        pooled_output = model(**inputs)
     print('paddle result')
-    print('pool output:', pooled_output[0, :10].numpy())
+    print('pool output:', pooled_output[0].numpy())
 
 
 if __name__ == '__main__':

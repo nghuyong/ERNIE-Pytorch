@@ -1,5 +1,7 @@
 # ERNIE-Pytorch
 
+**News: ERNIE has been merged into [huggingface/transformers](https://github.com/huggingface/transformers) !!**
+
 This project is to convert [ERNIE](https://github.com/PaddlePaddle/ERNIE) series models from paddlepaddle
 to [huggingface's](https://github.com/huggingface/pytorch-transformers) format (in Pytorch).
 
@@ -8,10 +10,10 @@ to [huggingface's](https://github.com/huggingface/pytorch-transformers) format (
 Take `ernie-1.0-base-zh` as an example:
 
 ```Python
-from transformers import BertTokenizer, BertModel
+from transformers import BertTokenizer, ErnieModel
 
 tokenizer = BertTokenizer.from_pretrained("nghuyong/ernie-1.0-base-zh")
-model = BertModel.from_pretrained("nghuyong/ernie-1.0-base-zh")
+model = ErnieModel.from_pretrained("nghuyong/ernie-1.0-base-zh")
 ```
 
 ### Supported Models
@@ -34,21 +36,6 @@ hub: [huggingface.co/nghuyong](https://huggingface.co/nghuyong),
 and model details from paddle's official
 repo: [PaddleNLP](https://paddlenlp.readthedocs.io/zh/latest/model_zoo/transformers/ERNIE/contents.html)
 and [ERNIE](https://github.com/PaddlePaddle/ERNIE/blob/repro).
-
-### Note for ERNIE-3.0
-If you want to use ernie-3.0 series models, you need to add `task_type_id` to BERT model following this [MR](https://github.com/huggingface/transformers/pull/18686/files) 
-**OR** you can re-install the transformers from my changed branch.
-```bash
-pip uninstall transformers # optional
-pip install git+https://github.com/nghuyong/transformers@add_task_type_id # reinstall, 4.22.0.dev0
-```
-Then you can load ERNIE-3.0 model as before:
-```Python
-from transformers import BertTokenizer, BertModel
-
-tokenizer = BertTokenizer.from_pretrained("nghuyong/ernie-3.0-base-zh")
-model = BertModel.from_pretrained("nghuyong/ernie-3.0-base-zh")
-```
 
 ## Details
 
