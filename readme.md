@@ -9,7 +9,7 @@ to [huggingface's](https://github.com/huggingface/pytorch-transformers) format (
 Install the latest `transformers`
 ```
 pip uninstall transformers
-pip install https://github.com/huggingface/transformers.git@main
+pip install git+https://github.com/huggingface/transformers.git@main
 ```
 Take `ernie-1.0-base-zh` as an example:
 
