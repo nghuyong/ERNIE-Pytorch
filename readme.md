@@ -1,6 +1,6 @@
 # ERNIE-Pytorch
 
-**News: ERNIE has been merged into [huggingface/transformers](https://github.com/huggingface/transformers) !!**
+**News: ERNIE has been merged into [huggingface/transformers@v4.22.0]([https://github.com/huggingface/transformers](https://github.com/huggingface/transformers/releases/tag/v4.22.0)!!**
 
 This project is to convert [ERNIE](https://github.com/PaddlePaddle/ERNIE) series models from paddlepaddle
 to [huggingface's](https://github.com/huggingface/pytorch-transformers) format (in Pytorch).
