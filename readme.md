@@ -6,7 +6,6 @@ This project is to convert [ERNIE](https://github.com/PaddlePaddle/ERNIE) series
 to [huggingface's](https://github.com/huggingface/pytorch-transformers) format (in Pytorch).
 
 ## Get Started
-Install `transformers >= 4.22.0` 
 ```
 pip install --upgrade transformers
 ```
