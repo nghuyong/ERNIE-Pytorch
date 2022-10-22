@@ -1,14 +1,17 @@
 # ERNIE-Pytorch
 
-**News: ERNIE has been merged into [huggingface/transformers@v4.22.0](https://github.com/huggingface/transformers/releases/tag/v4.22.0) !!**
+**News: ERNIE has been merged
+into [huggingface/transformers@v4.22.0](https://github.com/huggingface/transformers/releases/tag/v4.22.0) !!**
 
 This project is to convert [ERNIE](https://github.com/PaddlePaddle/ERNIE) series models from paddlepaddle
 to [huggingface's](https://github.com/huggingface/pytorch-transformers) format (in Pytorch).
 
 ## Get Started
+
 ```
 pip install --upgrade transformers
 ```
+
 Take `ernie-1.0-base-zh` as an example:
 
 ```Python
@@ -25,6 +28,7 @@ model = ErnieModel.from_pretrained("nghuyong/ernie-1.0-base-zh")
 |  ernie-1.0-base-zh  | Chinese  | Layer:12, Heads:12, Hidden:768  |
 |  ernie-2.0-base-en  | English  | Layer:12, Heads:12, Hidden:768  |
 | ernie-2.0-large-en  | English  | Layer:24, Heads:16, Hidden:1024 |
+| ernie-3.0-xbase-zh  | Chinese  | Layer:20, Heads:16, Hidden:1024 |
 |  ernie-3.0-base-zh  | Chinese  | Layer:12, Heads:12, Hidden:768  |
 | ernie-3.0-medium-zh | Chinese  |  Layer:6, Heads:12, Hidden:768  |
 |  ernie-3.0-mini-zh  | Chinese  |  Layer:6, Heads:12, Hidden:384  |
