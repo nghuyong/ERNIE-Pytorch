@@ -14,10 +14,8 @@
   <a href="https://github.com/nghuyong/ERNIE-Pytorch/">
         <img src="https://img.shields.io/github/last-commit/nghuyong/ERNIE-Pytorch.svg">
   </a>
-  
-    <a href="https://github.com/nghuyong/ERNIE-Pytorch/blob/master/LICENSE">
-        <img src="https://img.shields.io/github/license/nghuyong/ERNIE-Pytorch"
-             alt="GitHub license">
+   <a href="https://github.com/nghuyong/ERNIE-Pytorch/blob/master/LICENSE">
+        <img src="https://img.shields.io/github/license/nghuyong/ERNIE-Pytorch.svg">
   </a>
   
 </p>
