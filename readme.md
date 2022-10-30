@@ -1,10 +1,29 @@
-# ERNIE-Pytorch
+<h1 align="center">ERNIE-Pytorch</h1>
+
+<p align="center">This project is to convert ERNIE from paddlepaddle to huggingface's format (in Pytorch).</p>
+
+<p align="center">
+  <a href="https://github.com/nghuyong/ERNIE-Pytorch/stargazers">
+    <img src="https://img.shields.io/github/stars/nghuyong/ERNIE-Pytorch.svg?colorA=orange&colorB=orange&logo=github"
+         alt="GitHub stars">
+  </a>
+  <a href="https://github.com/nghuyong/ERNIE-Pytorch/issues">
+        <img src="https://img.shields.io/github/issues/nghuyong/ERNIE-Pytorch.svg"
+             alt="GitHub issues">
+  </a>
+  <a href="https://github.com/nghuyong/ERNIE-Pytorch/">
+        <img src="https://img.shields.io/github/last-commit/nghuyong/ERNIE-Pytorch.svg">
+  </a>
+  <a href="https://github.com/nghuyong/ERNIE-Pytorch/blob/master/LICENSE">
+        <img src="https://img.shields.io/github/license/nghuyong/ERNIE-Pytorch"
+             alt="GitHub license">
+  </a>
+</p>
+
 
 **News: ERNIE has been merged
 into [huggingface/transformers@v4.22.0](https://github.com/huggingface/transformers/releases/tag/v4.22.0) !!**
 
-This project is to convert [ERNIE](https://github.com/PaddlePaddle/ERNIE) series models from paddlepaddle
-to [huggingface's](https://github.com/huggingface/pytorch-transformers) format (in Pytorch).
 
 ## Get Started
 
