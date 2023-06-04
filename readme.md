@@ -71,9 +71,14 @@ and [ERNIE](https://github.com/PaddlePaddle/ERNIE/blob/repro).
 
 The following will take `ernie-1.0-base-zh` as an example to show how to convert.
 
-1. Download the paddle-paddle version ERNIE model
-   from [here](https://github.com/PaddlePaddle/ERNIE/blob/repro/README.zh.md#%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B%E4%B8%8B%E8%BD%BD)
-   , move to this project path and unzip the file.
+1. Download the paddle-paddle version ERNIE model. Execute the following code
+  ```
+  import paddlenlp
+  tokenizer = paddlenlp.transformers.ErnieTokenizer.from_pretrained("ernie-1.0-base-zh")
+  model = paddlenlp.transformers.ErnieForMaskedLM.from_pretrained("ernie-1.0-base-zh")
+  ```
+  And then you will get the model in `~/.paddlenlp/models/ernie-1.0-base-zh/`, move to this project path.
+  
 2. ```pip install -r requirements.txt```
 3. ```python convert.py```
 4. Now, a folder named `convert` will be in the project path, and there will be three files in this
