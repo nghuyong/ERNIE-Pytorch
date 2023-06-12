@@ -2,4 +2,4 @@ paddle==1.0.2
 paddlenlp==2.3.5
 paddlepaddle==2.3.1
 torch==1.12.0
-transformers==4.20.1
+transformers==4.30.0
